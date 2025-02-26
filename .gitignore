@@ -1,0 +1,16 @@
+# Ignorér venv-mappen
+.venv/
+
+# Python cache-filer
+__pycache__/
+*.pyc
+*.pyo
+
+# Miljøvariabler
+.env
+
+# IDE-specifikke filer
+.vscode/
+.idea/
+
+
