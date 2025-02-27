@@ -49,14 +49,40 @@ model.eval()
 #----------------------------------------------Website----------------------------------------------#
 
 # Home page
-@app.route("/", methods = ["GET"])
+@app.route("/", methods = ["GET", "POST"])
 def home():
-    return render_template("index.html")
+    prob = None
+    prediction = None
+    if request.method == "POST":
+        try:
+            # Get variables for inputs to predict outcome
+            input_data = [
+                float(request.form.get("Pregnancies")),
+                float(request.form.get("Glucose")),
+                float(request.form.get("BloodPressure")),
+                float(request.form.get("SkinThickness")),
+                float(request.form.get("Insulin")),
+                float(request.form.get("BMI")),
+                float(request.form.get("DiabetesPedigreeFunction")),
+                float(request.form.get("Age"))
+            ]
 
-# User input
-@app.route("/", methods = ['POST'])
-def predicter():
-    pregnancies = request.files["Pregnancies"]
+            # Create tensor from variables
+            input_tensor = torch.tensor([input_data], dtype=torch.float32)
+
+            # Prediction
+            with torch.no_grad():
+                output = model(input_tensor)
+                prob = torch.sigmoid(output.squeeze(0)).item()
+            
+            # Convert prediction to binary classification
+            prediction = 1 if prob >= 0.5 else 0
+        except Exception as e:
+            print(f'Error: {e}')
+            prediction = None
+
+    # Return prediction
+    return render_template("index.html", prediction = prediction, prob = prob)
 
 if __name__ == "__main__":
     app.run(port = 3000, debug = True)
