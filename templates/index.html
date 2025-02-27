@@ -36,8 +36,8 @@
             <button type="submit">Predict</button>
         </form>
 
-        {% if prediction %}
-            <h3>Prediction: {{ "Diabetic" if prediction == 1 else "Not Diabetic" }}</h3>
+        {% if prediction is not none %}
+            <h3>Prediction: {{ "Diabetic" if prediction == 1 else "Not diabetic" }}</h3>
             <p>Sigmoid probability: (sigmoid output): {{ prob|round(4) * 100}}%</p>
         {% endif %}
 
