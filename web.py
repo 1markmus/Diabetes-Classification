@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request
 import torch
 import torch.nn as nn
+import joblib
+import pandas as pd
+
+# Load Scaler
+scaler = joblib.load("scaler.pkl")
 
 app = Flask(__name__)
 
@@ -55,6 +60,22 @@ def home():
     prediction = None
     if request.method == "POST":
         try:
+            # Debug 1: Print raw input
+            print("Raw input data:")
+            print(request.form)
+
+            # Feauture columns
+            columns = [
+                'Pregnancies', 
+                'Glucose', 
+                'BloodPressure', 
+                'SkinThickness', 
+                'Insulin', 
+                'BMI', 
+                'DiabetesPedigreeFunction', 
+                'Age'
+            ]
+
             # Get variables for inputs to predict outcome
             input_data = [
                 float(request.form.get("Pregnancies")),
@@ -67,13 +88,28 @@ def home():
                 float(request.form.get("Age"))
             ]
 
+            # Input data DataFrame
+            input_data_df = pd.DataFrame([input_data], columns = columns)
+
+            # Debug 2: Print input data
+            print("Input data as floats:", input_data)
+
+            # Scaled data
+            input_scaled = scaler.transform(input_data_df)
+
+            # Debug 3: Print scaled data
+            print("Scaled input data:", input_scaled)
+
             # Create tensor from variables
-            input_tensor = torch.tensor([input_data], dtype=torch.float32)
+            input_tensor = torch.tensor(input_scaled, dtype=torch.float32)
 
             # Prediction
             with torch.no_grad():
                 output = model(input_tensor)
                 prob = torch.sigmoid(output.squeeze(0)).item()
+            
+            # Debug 4: Print model output
+            print("Model output (probability):", prob)
             
             # Convert prediction to binary classification
             prediction = 1 if prob >= 0.5 else 0
