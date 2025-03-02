@@ -10,7 +10,7 @@ scaler = joblib.load("scaler.pkl")
 app = Flask(__name__)
 
 #-----------------------------------------------NN model-----------------------------------------------#
-# Define Net-class
+# Define Net-class (neural network)
 class Net(nn.Module):
     def __init__(self, n_features):
         super().__init__()
