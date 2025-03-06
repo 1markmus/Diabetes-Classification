@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Diabetes classifier</title>
+    </head>
+
+    <body>
+        <a href="/" class="button">Home</a>
+        <h1>Diabetes classifier</h1>
+        <p>This is a diabetes classifier</p>
+
+        <form method="POST">
+            <label for="Pregnancies">Pregnancies</label><br>
+            <input type="text" id="Pregnancies" name="Pregnancies" required><br><br>
+
+            <label for="Glucose">Glucose</label><br>
+            <input type="text" id="Glucose" name="Glucose" required><br><br>
+
+            <label for="BloodPressure">BloodPressure</label><br>
+            <input type="text" id="BloodPressure" name="BloodPressure" required><br><br>
+
+            <label for="SkinThickness"></label>SkinThickness<br>
+            <input type="text" id="SkinThickness" name="SkinThickness" required><br><br>
+
+            <label for="Insulin"></label>Insulin<br>
+            <input type="text" id="Insulin" name="Insulin" required><br><br>
+
+            <label for="BMI"></label>BMI<br>
+            <input type="text" id="BMI" name="BMI" required><br><br>
+
+            <label for="DiabetesPedigreeFunction">DiabetesPedigreeFunction</label><br>
+            <input type="text" id="DiabetesPedigreeFunction" name="DiabetesPedigreeFunction" required><br><br>
+
+            <label for="Age"></label>Age<br>
+            <input type="text" id="Age" name="Age" required><br><br>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction is not none %}
+            <h3>Prediction: {{ "Diabetic" if prediction == 1 else "Not diabetic" }}</h3>
+            <p>Sigmoid probability: (sigmoid output): {{ prob|round(4) * 100}}%</p>
+        {% endif %}
+
+        <form method="POST"></form>
+
+    </body>
+</html>

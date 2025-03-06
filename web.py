@@ -52,10 +52,14 @@ model.load_state_dict(torch.load("model.pth", weights_only=True))
 model.eval()
 
 #----------------------------------------------Website----------------------------------------------#
-
-# Home page
+# Home 
 @app.route("/", methods = ["GET", "POST"])
 def home():
+    return render_template("index.html")
+
+# Predict page
+@app.route("/predict", methods = ["GET", "POST"])
+def predict():
     prob = None
     prediction = None
     if request.method == "POST":
@@ -118,7 +122,7 @@ def home():
             prediction = None
 
     # Return prediction
-    return render_template("index.html", prediction = prediction, prob = prob)
+    return render_template("predict.html", prediction = prediction, prob = prob)
 
 if __name__ == "__main__":
     app.run(port = 3000, debug = True)
