@@ -57,8 +57,28 @@ model.eval()
 def home():
     return render_template("index.html")
 
-# Predict page
-@app.route("/predict", methods = ["GET", "POST"])
+# Projects
+@app.route("/projects", methods = ["GET", "POST"])
+def projects():
+    return render_template("projects.html")
+
+# About
+@app.route("/about", methods = ["GET", "POST"])
+def about():
+    return render_template("about.html")
+
+# Contact
+@app.route("/contact", methods = ["GET", "POST"])
+def contact():
+    return render_template("contact.html")
+
+# Diabetes classifier
+@app.route("/projects/diabetes_classifier", methods = ["GET", "POST"])
+def diabetes_classifier():
+    return render_template("projects/diabetes_classification/diabetes_classifier.html")
+
+# Predict page for diabetes classifier
+@app.route("/projects/diabetes_classifier/predict", methods = ["GET", "POST"])
 def predict():
     prob = None
     prediction = None
@@ -122,7 +142,7 @@ def predict():
             prediction = None
 
     # Return prediction
-    return render_template("predict.html", prediction = prediction, prob = prob)
+    return render_template("projects/diabetes_classification/predict.html", prediction = prediction, prob = prob)
 
 if __name__ == "__main__":
     app.run(port = 3000, debug = True)
