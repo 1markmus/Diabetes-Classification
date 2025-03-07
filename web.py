@@ -51,7 +51,7 @@ model = Net(n_features=8)
 model.load_state_dict(torch.load("model.pth", weights_only=True))
 model.eval()
 
-#----------------------------------------------Website----------------------------------------------#
+#---------------------------------------Main links for website---------------------------------------#
 # Home 
 @app.route("/", methods = ["GET", "POST"])
 def home():
@@ -72,6 +72,19 @@ def about():
 def contact():
     return render_template("contact.html")
 
+#----------------------------------------------Blood cell----------------------------------------------#
+# Blood cell cancer detection
+@app.route("/projects/blood_cell_cancer_detection", methods = ["GET", "POST"])
+def blood_cell():
+    return render_template("/projects/blood_cell_cancer/blood_cell.html")
+
+#---------------------------------------Brain tumor classification---------------------------------------#
+# Brain tumor classification
+@app.route("/projects/brain_tumor_detection", methods = ["GET", "POST"])
+def brain_tumor():
+    return render_template("/projects/brain_tumor/brain_tumor.html")
+
+#-----------------------------------------Diabetes classifier-----------------------------------------#
 # Diabetes classifier
 @app.route("/projects/diabetes_classifier", methods = ["GET", "POST"])
 def diabetes_classifier():
@@ -144,5 +157,18 @@ def predict():
     # Return prediction
     return render_template("projects/diabetes_classification/predict.html", prediction = prediction, prob = prob)
 
+#-----------------------------------------PCA breast cancer-----------------------------------------#
+# PCA breast cancer
+@app.route("/projects/pca_gene_expression", methods = ["GET", "POST"])
+def pca_gene():
+    return render_template("/projects/pca_gene/pca_gene.html")
+
+#-----------------------------------------Penguin clustering-----------------------------------------#
+# Penguin clustering
+@app.route("/projects/clustering_of_penguins", methods = ["GET", "POST"])
+def penguin_clustering():
+    return render_template("/projects/penguin_cluster/penguin.html")
+
+#----------------------------------------------Utility----------------------------------------------#
 if __name__ == "__main__":
     app.run(port = 3000, debug = True)
